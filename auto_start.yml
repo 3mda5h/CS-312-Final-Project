@@ -1,0 +1,31 @@
+---
+- name: configure mc server to start automatically
+  hosts: minecraft-servers
+  gather_facts: false
+
+  tasks:
+    - name: create systemd file
+      copy:
+        dest: /etc/systemd/system/minecraft.service
+        content: |
+          [Unit]
+          Description=Minecraft Server
+          After=network.target
+
+          [Service]
+          User=ec2-user
+          WorkingDirectory=/home/ec2-user/Minecraft-Server
+
+          ExecStart=/usr/bin/java -Xms1G -Xmx2G -jar server.jar nogui
+
+          Restart=on-failure
+          RestartSec=10
+
+          [Install]
+          WantedBy=multi-user.target
+    - name: reload system daemons
+      command: sudo systemctl daemon-reload
+    - name: enable minecraft service
+      command: sudo systemctl enable minecraft
+    - name: start the minecraft service
+      command: sudo systemctl start minecraft

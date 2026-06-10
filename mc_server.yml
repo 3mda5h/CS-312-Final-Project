@@ -1,0 +1,27 @@
+---
+- name: Download and run minecraft server on the EC2 instance
+  hosts: minecraft-servers
+  gather_facts: false
+
+  tasks:
+    - name: Download java
+      command: sudo dnf install java-25-amazon-corretto-headless -y
+    - name: Make minecraft server directory
+      command: mkdir ~/Minecraft-server
+    - name: enter minecraft directory
+      command: cd ~/Minecraft-server
+    - name: download minecraft server jar
+      command: wget https://piston-data.mojang.com/v1/objects/97ccd4c0ed3f81bbb7bfacddd1090b0c56f9bc51/server.jar
+    - name: run the server
+      command: java -Xmx2G -Xms1G -jar server.jar nogui
+    - name: wait 10 seconds for server to start
+      wait_for:
+        timeout: 10
+    - name: accept eula
+      lineinfile:
+        path: ~/Minecraft-Server/eula.txt
+        regexp: 'eula=false'
+        line: 'eula=true'
+    - name: run server a second time
+      command: java -Xmx2G -Xms1G -jar server.jar nogui &
+      
