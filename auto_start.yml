@@ -15,7 +15,7 @@
 
           [Service]
           User=ec2-user
-          WorkingDirectory=/home/ec2-user/Minecraft-Server
+          WorkingDirectory=/home/ec2-user/Minecraft-server
 
           ExecStart=/usr/bin/java -Xms1G -Xmx2G -jar server.jar nogui
 
@@ -24,9 +24,12 @@
 
           [Install]
           WantedBy=multi-user.target
-    - name: reload system daemons
-      command: sudo systemctl daemon-reload
-    - name: enable minecraft service
-      command: sudo systemctl enable minecraft
-    - name: start the minecraft service
-      command: sudo systemctl start minecraft
+    - name: Reload systemd daemons
+      systemd:
+        daemon_reload: true
+    - name: Enable and start minecraft service
+      systemd:
+        name: minecraft
+        state: started
+        enabled: true # this makes it run on boot!
+
