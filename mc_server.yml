@@ -1,5 +1,5 @@
 ---
-- name: Download and run minecraft server on the EC2 instance
+- name: Download and set up a minecraft server on the EC2 instance
   hosts: minecraft-servers
   gather_facts: false
 

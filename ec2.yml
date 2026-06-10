@@ -1,5 +1,5 @@
 ---
-- name: deploy EC2 instance
+- name: deploy EC2 instance for the minecraft server
   hosts: localhost
   connection: local
   gather_facts: false
@@ -13,7 +13,23 @@
     subnet_id: subnet-0251f9740e1a65f16
 
   tasks:
-    - name: Launch ec2 instance
+    - name: create security group 
+      amazon.aws.ec2_security_group:
+        name: "minecraft-SG"
+        description: "minecraft server security group"
+        region: "{{ region }}"
+        vpc_id: "{{ vpc_id }}"
+        rules:
+          - proto: tcp
+            ports: 22
+            cidr_ip: 0.0.0.0/0
+            rule_desc: "allow SSH"
+          - proto: tcp
+            ports: 25565
+            cidr_ip: 0.0.0.0/0
+            rule_desc: "allow Minecraft port"
+      register: sg
+    - name: launch ec2 instance
       amazon.aws.ec2_instance:
         name: "minecraft-server"
         region: "{{ region }}"
@@ -21,7 +37,7 @@
         image_id: "{{ ami_id }}"
         key_name: "{{ key_name }}"
         vpc_subnet_id: "{{ subnet_id }}"
-        security_group: "sg-0d9a5bd0a5b815cac"
+        security_group: "{{ sg.group_id }}"
         network:
           assign_public_ip: true
         state: running
