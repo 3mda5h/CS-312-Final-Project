@@ -2,6 +2,7 @@
 - name: configure mc server to start automatically
   hosts: minecraft-servers
   gather_facts: false
+  become: true #run as sudo
 
   tasks:
     - name: create systemd file
