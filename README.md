@@ -11,17 +11,11 @@ Below is the official Acme Corp documentation for using Ansible scripts to deplo
 - Installs Java 25 and downloads the Minecraft 26.1.2 server jar file to a directory titled "Minecraft-server"
 - Runs the jar file and accepts the resulting eula
 - Creates a systemd service that automatically runs the Minecraft server upon reboot
+
 ## Requirements
 
 1. You must have a `.pem` private key stored on your local computer that you can use to connect with instances on AWS
 2. You must have AWS credentials stored at `~/.aws/credentials`. If you are using an AWS learned lab, you can get these credentials from the "AWS details" tab on the page where you start and stop the lab. Note that your credentials will change with each lab session.
-
-### Dependicies
-- Ansible 14.0.0
-- Ansible galaxy collection amazon.aws 11.3.0 
-- boto3 1.43.26
-- botocore 1.43.26
-- Python 3.14.4
 
 ### Steps for deployment:
 
@@ -32,8 +26,11 @@ Below is the official Acme Corp documentation for using Ansible scripts to deplo
 4. Install dependencies: 
     `pip install -r requirements.txt`
     `ansible-galaxy collection install -r requirements.yml`
-    
-
+    Dependencies:
+    - Ansible 14.0.0
+    - Ansible galaxy collection amazon.aws 11.3.0 
+    - boto3 1.43.26
+    - botocore 1.43.26
 5. Configuration:
    open `ec2_v1.yml` and do the following under `vars`:
 -   change the value of `key_name` to the name of your key-pair on AWS
