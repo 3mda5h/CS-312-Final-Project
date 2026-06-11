@@ -12,8 +12,10 @@ Below is the official Acme Corp documentation for using Ansible scripts to deplo
 - Runs the jar file and accepts the resulting eula
 - Creates a systemd service that automatically runs the Minecraft server upon reboot
 
-## Requirements
+## Tutorial
 
+
+### Requirements
 1. You must have a `.pem` private key stored on your local computer that you can use to connect with instances on AWS
 2. You must have AWS credentials stored at `~/.aws/credentials`. If you are using an AWS learned lab, you can get these credentials from the "AWS details" tab on the page where you start and stop the lab. Note that your credentials will change with each lab session.
 
