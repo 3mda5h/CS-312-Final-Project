@@ -26,6 +26,7 @@ Below is the official Acme Corp documentation for using Ansible scripts to deplo
 4. Install dependencies: 
     `pip install -r requirements.txt`
     `ansible-galaxy collection install -r requirements.yml`
+    
     Dependencies:
     - Ansible 14.0.0
     - Ansible galaxy collection amazon.aws 11.3.0 
@@ -41,7 +42,7 @@ Below is the official Acme Corp documentation for using Ansible scripts to deplo
 
 ### Connecting to the Minecraft server
 
-To connect to the Minecraft server, open your Minecraft client and select "Multiplayer." Then, at the bottom of the screen, click "direct connection". Enter the public IP of the EC2 instance (no need to enter port number), and click "connect!"
+To connect to the Minecraft server, open your Minecraft client and select "Multiplayer." Then, at the bottom of the screen, click "direct connection". Enter the public IP of the EC2 instance (no need to enter port number), and click "connect"!
 
 ### Pipeline
 
