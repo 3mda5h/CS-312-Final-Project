@@ -15,6 +15,14 @@ Below is the official Acme Corp documentation for using Ansible scripts to deplo
 
 1. You must have a `.pem` private key stored on your local computer that you can use to connect with instances on AWS
 2. You must have AWS credentials stored at `~/.aws/credentials`. If you are using an AWS learned lab, you can get these credentials from the "AWS details" tab on the page where you start and stop the lab. Note that your credentials will change with each lab session.
+
+### Dependicies
+- Ansible 14.0.0
+- Ansible galaxy collection amazon.aws 11.3.0 
+- boto3 1.43.26
+- botocore 1.43.26
+- Python 3.14.4
+
 ### Steps for deployment:
 
 1. Clone the repository: `git clone git@github.com:3mda5h/CS-312-Final-Project.git`
@@ -22,14 +30,15 @@ Below is the official Acme Corp documentation for using Ansible scripts to deplo
 	if you do not have python installed, first run: `sudo apt install python3 python3.14-venv`
 3. Activate the virtual environment: `source .venv/bin/activate`
 4. Install dependencies: 
-    `sudo apt install ansible boto3 botocore`
-    `ansible-galaxy collection install amazon.aws`
+    `pip install -r requirements.txt`
+    `ansible-galaxy collection install -r requirements.yml`
+    
 
 5. Configuration:
-    open `ec2.yml` and do the following:
-    - change the value of `key_name` to the name of your key-pair on AWS
-    - change the value of `vpc_id` to the id of the VPC you want your instance to be deployed in (if you're not sure, any VPC or the default is fine)
-    - change the value of `vpc_id` to the id of the subet you wish your instance to be deployed in (if you're not sure, any subnet or the default is fine)
+   open `ec2_v1.yml` and do the following under `vars`:
+-   change the value of `key_name` to the name of your key-pair on AWS
+-   change the value of `vpc_id` to the id of the VPC you want your instance to be deployed in (if you're not sure, any VPC or the default is fine)
+-   change the value of `subnet_id` to the id of the subet you wish your instance to be deployed in (if you're not sure, any subnet or the default is fine)
 5. To deploy the Minecraft server, run `ansible-playbook deploy_mc_server.yml`. It may take a few minutes to finish.
 6. Once the ansible script is finished, it will take about 30 more seconds for the Minecraft server to start. You can ensure that the server is running by scanning the EC2 instance with nmap: `nmap -sV -Pn -p T:25565 <EC2 public ip>`. If the nmap results show that port 25565 is open and running Minecraft 26.1.2, then the server has successfully started!
 
@@ -40,7 +49,7 @@ To connect to the Minecraft server, open your Minecraft client and select "Multi
 ### Pipeline
 
 - User runs script `deploy_mc_server.yml`
-- Script sequentially triggers the 3 scripts: `ec2.yml`, `mc_server.yml`, and `auto-start.yml`
+- Script sequentially triggers the 3 scripts: `ec2_v1.yml`, `mc_server_v1.yml`, and `auto-start_v1.yml`
 - Ansible yaml runs on your local machine
 - `amazon.aws` Python module imports boto3
 - boto3 makes API calls to AWS using the credentials you provide in `~/.aws/credentials` to create the EC2 instance
